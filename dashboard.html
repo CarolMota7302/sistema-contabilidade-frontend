@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Cliente - Contabilidade</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <!-- Logo e Marca -->
+            <div class="brand-section">
+                <div class="logo-container">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <span class="brand-name">Painel Contábil</span>
+            </div>
+
+            <!-- Seletor de Empresa -->
+            <div class="company-selector">
+                <div class="company-info">
+                    <span class="company-label">Empresa:</span>
+                    <div class="company-dropdown">
+                        <button class="company-button" id="companyButton">
+                            <span class="company-name">ABC Ltda</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="company-menu" id="companyMenu">
+                            <div class="company-option active">
+                                <i class="fas fa-building"></i>
+                                <span>ABC Ltda</span>
+                            </div>
+                            <div class="company-option">
+                                <i class="fas fa-building"></i>
+                                <span>XYZ Comércio</span>
+                            </div>
+                            <div class="company-option">
+                                <i class="fas fa-building"></i>
+                                <span>DEF Serviços</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Sair -->
+            <div class="header-actions">
+                <button class="logout-button" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu de Navegação Principal -->
+    <nav class="main-navigation">
+        <div class="nav-content">
+            <div class="nav-item active" data-section="dashboard">
+                <i class="fas fa-chart-bar"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-section="fiscal">
+                <i class="fas fa-file-invoice"></i>
+                <span>Fiscal</span>
+            </div>
+            <div class="nav-item" data-section="rh">
+                <i class="fas fa-users"></i>
+                <span>RH</span>
+            </div>
+            <div class="nav-item" data-section="solicitacoes">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Solicitações</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <div class="section-header">
+                <h1>Dashboard</h1>
+                <p>Visão geral das informações da empresa</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Cards de Métricas -->
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Faturamento Mensal</h3>
+                        <span class="metric-value">R\$ 127.850,00</span>
+                        <span class="metric-change positive">+12.5% este mês</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Funcionários Ativos</h3>
+                        <span class="metric-value">45</span>
+                        <span class="metric-change neutral">2 admissões</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Pendências</h3>
+                        <span class="metric-value">8</span>
+                        <span class="metric-change negative">3 urgentes</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Obrigações do Mês</h3>
+                        <span class="metric-value">12</span>
+                        <span class="metric-change positive">5 concluídas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widgets Adicionais -->
+            <div class="dashboard-widgets">
+                <div class="widget">
+                    <h3>Próximos Vencimentos</h3>
+                    <div class="widget-content">
+                        <div class="deadline-item">
+                            <span class="deadline-date">15/12</span>
+                            <span class="deadline-desc">DAS - Simples Nacional</span>
+                            <span class="deadline-status urgent">Urgente</span>
+                        </div>
+                        <div class="deadline-item">
+                            <span class="deadline-date">20/12</span>
+                            <span class="deadline-desc">FGTS</span>
+                            <span class="deadline-status normal">Normal</span>
+                        </div>
+                        <div class="deadline-item">
+                            <span class="deadline-date">25/12</span>
+                            <span class="deadline-desc">GPS - INSS</span>
+                            <span class="deadline-status normal">Normal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h3>Atividades Recentes</h3>
+                    <div class="widget-content">
+                        <div class="activity-item">
+                            <i class="fas fa-user-plus"></i>
+                            <div class="activity-desc">
+                                <span>Novo funcionário cadastrado</span>
+                                <small>João Silva - há 2 horas</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <i class="fas fa-file-upload"></i>
+                            <div class="activity-desc">
+                                <span>Documento fiscal enviado</span>
+                                <small>NFe 001234 - há 4 horas</small>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <i class="fas fa-calculator"></i>
+                            <div class="activity-desc">
+                                <span>Folha de pagamento processada</span>
+                                <small>Novembro 2024 - ontem</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RH Section -->
+        <section id="rh-section" class="content-section">
+            <div class="section-header">
+                <h1>Recursos Humanos</h1>
+                <p>Gestão completa de pessoal e folha de pagamento</p>
+            </div>
+
+            <div class="rh-menu-grid">
+                <!-- Registro de Funcionários -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-user"></i>
+                        <h3>Registro de Funcionários</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="dados-pessoais">
+                            <i class="fas fa-id-card"></i>
+                            <span>Dados Pessoais</span>
+                        </div>
+                        <div class="rh-option" data-feature="dependentes">
+                            <i class="fas fa-users"></i>
+                            <span>Dependentes</span>
+                        </div>
+                        <div class="rh-option" data-feature="contratacao">
+                            <i class="fas fa-handshake"></i>
+                            <span>Contratação</span>
+                        </div>
+                        <div class="rh-option" data-feature="beneficios">
+                            <i class="fas fa-gift"></i>
+                            <span>Benefícios</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados Salvos Automaticamente -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-save"></i>
+                        <h3>Dados Salvos Automaticamente</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="rascunhos">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Rascunhos Salvos</span>
+                        </div>
+                        <div class="rh-option" data-feature="historico">
+                            <i class="fas fa-history"></i>
+                            <span>Histórico de Alterações</span>
+                        </div>
+                        <div class="rh-option" data-feature="backup">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Backup Automático</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relatórios RH -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Relatórios RH</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="validacao-contador">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Validação do Contador</span>
+                        </div>
+                        <div class="rh-option" data-feature="relatorio-funcionarios">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Relatório de Funcionários</span>
+                        </div>
+                        <div class="rh-option" data-feature="analise-custos">
+                            <i class="fas fa-calculator"></i>
+                            <span>Análise de Custos</span>
+                        </div>
+                        <div class="rh-option" data-feature="indicadores">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Indicadores de RH</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Container para RH -->
+            <div id="modal-container"></div>
+        </section>
+
+        <!-- Fiscal Section -->
+        <section id="fiscal-section" class="content-section">
+            <div class="section-header">
+                <h1>Fiscal</h1>
+                <p>Gestão de documentos fiscais e obrigações tributárias</p>
+            </div>
+
+            <div class="rh-menu-grid">
+                <!-- Documentos Fiscais -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-file-invoice"></i>
+                        <h3>Documentos Fiscais</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="xml-entrada">
+                            <i class="fas fa-download"></i>
+                            <span>XML de Entrada</span>
+                        </div>
+                        <div class="rh-option" data-feature="xml-saida">
+                            <i class="fas fa-upload"></i>
+                            <span>XML de Saída</span>
+                        </div>
+                        <div class="rh-option" data-feature="nfe-emitidas">
+                            <i class="fas fa-receipt"></i>
+                            <span>NFe Emitidas</span>
+                        </div>
+                        <div class="rh-option" data-feature="nfe-recebidas">
+                            <i class="fas fa-inbox"></i>
+                            <span>NFe Recebidas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Obrigações Fiscais -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Obrigações Fiscais</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="sped-fiscal">
+                            <i class="fas fa-file-code"></i>
+                            <span>SPED Fiscal</span>
+                        </div>
+                        <div class="rh-option" data-feature="sped-contribuicoes">
+                            <i class="fas fa-file-alt"></i>
+                            <span>SPED Contribuições</span>
+                        </div>
+                        <div class="rh-option" data-feature="dctf">
+                            <i class="fas fa-calculator"></i>
+                            <span>DCTF</span>
+                        </div>
+                        <div class="rh-option" data-feature="dirf">
+                            <i class="fas fa-chart-line"></i>
+                            <span>DIRF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impostos e Tributos -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-coins"></i>
+                        <h3>Impostos e Tributos</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="das-simples">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>DAS - Simples Nacional</span>
+                        </div>
+                        <div class="rh-option" data-feature="icms">
+                            <i class="fas fa-truck"></i>
+                            <span>ICMS</span>
+                        </div>
+                        <div class="rh-option" data-feature="iss">
+                            <i class="fas fa-building"></i>
+                            <span>ISS</span>
+                        </div>
+                        <div class="rh-option" data-feature="pis-cofins">
+                            <i class="fas fa-percentage"></i>
+                            <span>PIS/COFINS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relatórios Fiscais -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Relatórios Fiscais</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="livro-registro">
+                            <i class="fas fa-book"></i>
+                            <span>Livro de Registro</span>
+                        </div>
+                        <div class="rh-option" data-feature="balancete">
+                            <i class="fas fa-balance-scale"></i>
+                            <span>Balancete</span>
+                        </div>
+                        <div class="rh-option" data-feature="dre">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>DRE</span>
+                        </div>
+                        <div class="rh-option" data-feature="fluxo-caixa">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Fluxo de Caixa</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Container para Fiscal -->
+            <div id="modal-container-fiscal"></div>
+        </section>
+
+        <!-- Solicitações Section -->
+        <section id="solicitacoes-section" class="content-section">
+            <div class="section-header">
+                <h1>Solicitações</h1>
+                <p>Central de solicitações e processos mensais</p>
+            </div>
+
+            <div class="rh-menu-grid">
+                <!-- Solicitações Mensais -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h3>Solicitações Mensais</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="ferias">
+                            <i class="fas fa-umbrella-beach"></i>
+                            <span> Férias</span>
+                        </div>
+                        <div class="rh-option" data-feature="rescisao">
+                            <i class="fas fa-user-times"></i>
+                            <span> Rescisão</span>
+                        </div>
+                        <div class="rh-option" data-feature="experiencia">
+                            <i class="fas fa-clock"></i>
+                            <span> Experiência</span>
+                        </div>
+                        <div class="rh-option" data-feature="valores-beneficios">
+                            <i class="fas fa-coins"></i>
+                            <span> Valores Benefícios</span>
+                        </div>
+                        <div class="rh-option" data-feature="folha-pagamento">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span> Folha Pagamento</span>
+                        </div>
+                        <div class="rh-option" data-feature="detalhes-rescisao">
+                            <i class="fas fa-file-alt"></i>
+                            <span> Detalhes Rescisão</span>
+                        </div>
+                        <div class="rh-option" data-feature="alocacoes">
+                            <i class="fas fa-building"></i>
+                            <span> Alocações</span>
+                        </div>
+                        <div class="rh-option" data-feature="alocacao-funcionarios">
+                            <i class="fas fa-users-cog"></i>
+                            <span> Alocação Funcionários</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentos e Certidões -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-file-contract"></i>
+                        <h3>Documentos e Certidões</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="declaracao-ir">
+                            <i class="fas fa-file-invoice"></i>
+                            <span>Declaração de IR</span>
+                        </div>
+                        <div class="rh-option" data-feature="certidao-negativa">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certidão Negativa</span>
+                        </div>
+                        <div class="rh-option" data-feature="alvara-funcionamento">
+                            <i class="fas fa-stamp"></i>
+                            <span>Alvará de Funcionamento</span>
+                        </div>
+                        <div class="rh-option" data-feature="outros-documentos">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Outros Documentos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solicitações Empresariais -->
+                <div class="rh-category">
+                    <div class="category-header">
+                        <i class="fas fa-building"></i>
+                        <h3>Solicitações Empresariais</h3>
+                    </div>
+                    <div class="category-options">
+                        <div class="rh-option" data-feature="alteracao-contratual">
+                            <i class="fas fa-edit"></i>
+                            <span>Alteração Contratual</span>
+                        </div>
+                        <div class="rh-option" data-feature="abertura-filial">
+                            <i class="fas fa-plus-square"></i>
+                            <span>Abertura de Filial</span>
+                        </div>
+                        <div class="rh-option" data-feature="encerramento-atividades">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Encerramento de Atividades</span>
+                        </div>
+                        <div class="rh-option" data-feature="mudanca-endereco">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Mudança de Endereço</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Container para Solicitações -->
+            <div id="modal-container-solicitacoes"></div>
+        </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML de Entrada - Portal Contábil</title>
+    <link rel="stylesheet" href="xmlentrada.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="header-content">
+            <!-- Navegação de Volta -->
+            <div class="back-navigation">
+                <button class="btn-back" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Voltar ao Dashboard</span>
+                </button>
+            </div>
+
+            <!-- Logo e Título -->
+            <div class="page-title-section">
+                <div class="logo-container">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="title-info">
+                    <h1>XML de Entrada</h1>
+                    <p>Gestão completa de documentos fiscais recebidos</p>
+                </div>
+            </div>
+
+            <!-- Ações do Header -->
+            <div class="header-actions">
+                <button class="btn-upload" onclick="openUploadModal()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Upload XML</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <main class="main-container">
+        <!-- Dashboard de Estatísticas -->
+        <section class="stats-dashboard">
+            <div class="sync-info">
+                <div class="sync-status">
+                    <i class="fas fa-sync-alt spinning"></i>
+                    <div class="sync-details">
+                        <span class="sync-last">Última sincronização: 12/11/2025 às 14:30</span>
+                        <span class="sync-next">Próxima sincronização: 12/11/2025 às 15:30</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">247</div>
+                        <div class="stat-label">Total de XMLs</div>
+                        <div class="stat-trend positive">+12 hoje</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Pendentes Processo</div>
+                        <div class="stat-trend neutral">3 novos</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card processed">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">220</div>
+                        <div class="stat-label">Processados</div>
+                        <div class="stat-trend positive">+8 hoje</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card error">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Com Erro</div>
+                        <div class="stat-trend negative">2 críticos</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Filtros -->
+        <section class="filters-section">
+            <div class="filters-header">
+                <h2><i class="fas fa-filter"></i> Filtros de Consulta</h2>
+                <div class="filters-actions">
+                    <button class="btn-clear" onclick="clearAllFilters()">
+                        <i class="fas fa-times"></i> Limpar
+                    </button>
+                    <button class="btn-apply" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Aplicar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="data-inicio">Data Início</label>
+                    <input type="date" id="data-inicio" value="2025-11-01">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="data-fim">Data Fim</label>
+                    <input type="date" id="data-fim" value="2025-11-30">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="tipo-documento">Tipo de Documento</label>
+                    <select id="tipo-documento">
+                        <option value="">Todos os tipos</option>
+                        <option value="nfe">NFe - Nota Fiscal Eletrônica</option>
+                        <option value="nfce">NFCe - Nota Fiscal de Consumidor</option>
+                        <option value="cte">CTe - Conhecimento de Transporte</option>
+                        <option value="nfse">NFSe - Nota Fiscal de Serviços</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="cnpj-emitente">CNPJ Emitente</label>
+                    <input type="text" id="cnpj-emitente" placeholder="00.000.000/0000-00">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="status-documento">Status</label>
+                    <select id="status-documento">
+                        <option value="">Todos os status</option>
+                        <option value="recebido">Recebido</option>
+                        <option value="processado">Processado</option>
+                        <option value="enviado">Enviado</option>
+                        <option value="erro">Com Erro</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="numero-nf">Número da NF</label>
+                    <input type="text" id="numero-nf" placeholder="Digite o número">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="valor-min">Valor Mínimo</label>
+                    <input type="text" id="valor-min" placeholder="R$ 0,00">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="valor-max">Valor Máximo</label>
+                    <input type="text" id="valor-max" placeholder="R$ 0,00">
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Ações em Lote -->
+        <section class="batch-actions-section">
+            <div class="batch-info">
+                <div class="selection-info">
+                    <span id="selected-count">0 selecionados</span>
+                    <button class="btn-select-all" onclick="selectAllVisible()">
+                        Selecionar Todos Visíveis
+                    </button>
+                    <button class="btn-deselect-all" onclick="deselectAll()">
+                        Desmarcar Todos
+                    </button>
+                </div>
+            </div>
+            
+            <div class="batch-buttons">
+                <button class="btn-batch download" onclick="downloadBatch()" disabled>
+                    <i class="fas fa-download"></i>
+                    <span>Baixar Lote (0)</span>
+                </button>
+                <button class="btn-batch send" onclick="sendToDomain()" disabled>
+                    <i class="fas fa-rocket"></i>
+                    <span>Enviar para Domínio (0)</span>
+                </button>
+                <button class="btn-batch process" onclick="processBatch()" disabled>
+                    <i class="fas fa-cog"></i>
+                    <span>Processar Lote (0)</span>
+                </button>
+                <button class="btn-batch delete" onclick="deleteBatch()" disabled>
+                    <i class="fas fa-trash"></i>
+                    <span>Excluir Lote (0)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Seção da Tabela -->
+        <section class="table-section">
+            <div class="table-header">
+                <div class="table-title">
+                    <h2><i class="fas fa-table"></i> Documentos XML de Entrada</h2>
+                    <div class="table-info">
+                        <span>Exibindo <strong>50</strong> de <strong>247</strong> registros</span>
+                        <span class="filter-applied">Filtro aplicado: Novembro 2025</span>
+                    </div>
+                </div>
+                
+                <div class="table-actions">
+                    <button class="btn-export" onclick="exportData()">
+                        <i class="fas fa-file-export"></i>
+                        <span>Exportar</span>
+                    </button>
+                    <button class="btn-refresh" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Atualizar</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="xml-table">
+                    <thead>
+                        <tr>
+                            <th width="50">
+                                <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll()">
+                            </th>
+                            <th>Data/Hora Recebimento</th>
+                            <th>Tipo</th>
+                            <th>Número NF</th>
+                            <th>Emitente</th>
+                            <th>CNPJ</th>
+                            <th>Valor Total</th>
+                            <th>Status</th>
+                            <th width="180">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="xmlTableBody">
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" data-id="1"></td>
+                            <td>
+                                <div class="datetime-cell">
+                                    <span class="date">31/10/2025</span>
+                                    <span class="time">23:45</span>
+                                </div>
+                            </td>
+                            <td><span class="doc-type nfe">NFe</span></td>
+                            <td><strong>000123456</strong></td>
+                            <td>
+                                <div class="emitente-cell">
+                                    <span class="company-name">Fornecedor ABC Ltda</span>
+                                    <span class="company-type">Fornecedor</span>
+                                </div>
+                            </td>
+                            <td><code>12.345.678/0001-90</code></td>
+                            <td><strong>R$ 2.500,00</strong></td>
+                            <td><span class="status-badge recebido"> Recebido</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action view" onclick="viewDetails(1)" title="Visualizar Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action download" onclick="downloadSingle(1)" title="Download XML">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editXML(1)" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action delete" onclick="deleteXML(1)" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" data-id="2"></td>
+                            <td>
+                                <div class="datetime-cell">
+                                    <span class="date">30/11/2025</span>
+                                    <span class="time">18:20</span>
+                                </div>
+                            </td>
+                            <td><span class="doc-type nfe">NFe</span></td>
+                            <td><strong>000123457</strong></td>
+                            <td>
+                                <div class="emitente-cell">
+                                    <span class="company-name">Distribuidora XYZ S.A.</span>
+                                    <span class="company-type">Distribuidora</span>
+                                </div>
+                            </td>
+                            <td><code>98.765.432/0001-10</code></td>
+                            <td><strong>R$ 1.800,00</strong></td>
+                            <td><span class="status-badge processado"> Processado</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action view" onclick="viewDetails(2)" title="Visualizar Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action download" onclick="downloadSingle(2)" title="Download XML">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editXML(2)" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action report" onclick="generateReport(2)" title="Gerar Relatório">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" data-id="3"></td>
+                            <td>
+                                <div class="datetime-cell">
+                                    <span class="date">29/11/2025</span>
+                                    <span class="time">14:15</span>
+                                </div>
+                            </td>
+                            <td><span class="doc-type cte">CTe</span></td>
+                            <td><strong>000098765</strong></td>
+                            <td>
+                                <div class="emitente-cell">
+                                    <span class="company-name">Transportadora Rápida</span>
+                                    <span class="company-type">Transportadora</span>
+                                </div>
+                            </td>
+                            <td><code>11.222.333/0001-44</code></td>
+                            <td><strong>R$ 450,00</strong></td>
+                            <td><span class="status-badge enviado"> Enviado</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action view" onclick="viewDetails(3)" title="Visualizar Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action download" onclick="downloadSingle(3)" title="Download XML">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editXML(3)" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action track" onclick="trackXML(3)" title="Rastrear Envio">
+                                        <i class="fas fa-truck"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" data-id="4"></td>
+                            <td>
+                                <div class="datetime-cell">
+                                    <span class="date">28/11/2025</span>
+                                    <span class="time">10:30</span>
+                                </div>
+                            </td>
+                            <td><span class="doc-type nfce">NFCe</span></td>
+                            <td><strong>000054321</strong></td>
+                            <td>
+                                <div class="emitente-cell">
+                                    <span class="company-name">Comércio Local Ltda</span>
+                                    <span class="company-type">Comércio</span>
+                                </div>
+                            </td>
+                            <td><code>55.666.777/0001-88</code></td>
+                            <td><strong>R$ 89,90</strong></td>
+                            <td><span class="status-badge erro"> Erro</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action view" onclick="viewDetails(4)" title="Visualizar Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action download" onclick="downloadSingle(4)" title="Download XML">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editXML(4)" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action retry" onclick="retryProcess(4)" title="Tentar Novamente">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    <button class="btn-action error-log" onclick="viewErrorLog(4)" title="Ver Detalhes do Erro">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" data-id="5"></td>
+                            <td>
+                                <div class="datetime-cell">
+                                    <span class="date">27/11/2025</span>
+                                    <span class="time">16:45</span>
+                                </div>
+                            </td>
+                            <td><span class="doc-type nfe">NFe</span></td>
+                            <td><strong>000789123</strong></td>
+                            <td>
+                                <div class="emitente-cell">
+                                    <span class="company-name">Indústria Beta S.A.</span>
+                                    <span class="company-type">Indústria</span>
+                                </div>
+                            </td>
+                            <td><code>33.444.555/0001-66</code></td>
+                            <td><strong>R$ 5.200,00</strong></td>
+                            <td><span class="status-badge recebido"> Recebido</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action view" onclick="viewDetails(5)" title="Visualizar Detalhes">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action download" onclick="downloadSingle(5)" title="Download XML">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editXML(5)" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action process" onclick="processXML(5)" title="Processar XML">
+                                        <i class="fas fa-cogs"></i>
+                                    </button>
+                                    <button class="btn-action priority" onclick="setPriority(5)" title="Definir Prioridade">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginação -->
+            <div class="pagination-section">
+                <div class="pagination-info">
+                    <span>Mostrando 1-50 de 247 registros</span>
+                </div>
+                
+                <div class="pagination-controls">
+                    <button class="btn-page" onclick="goToPage('first')" disabled>
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                    <button class="btn-page" onclick="goToPage('prev')" disabled>
+                        <i class="fas fa-angle-left"></i> Anterior
+                    </button>
+                    
+                    <div class="page-numbers">
+                        <button class="btn-page active">1</button>
+                        <button class="btn-page">2</button>
+                        <button class="btn-page">3</button>
+                        <span class="page-separator">...</span>
+                        <button class="btn-page">5</button>
+                    </div>
+                    
+                    <button class="btn-page" onclick="goToPage('next')">
+                        Próxima <i class="fas fa-angle-right"></i>
+                    </button>
+                    <button class="btn-page" onclick="goToPage('last')">
+                        <i class="fas fa-angle-double-right"></i>
+                    </button>
+                </div>
+                
+                <div class="pagination-size">
+                    <label for="page-size">Itens por página:</label>
+                    <select id="page-size" onchange="changePageSize()">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal de Upload -->
+    <div id="upload-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content upload-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Upload de XMLs</h2>
+                <button class="close-btn" onclick="closeUploadModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Arraste os arquivos XML aqui</h3>
+                    <p>ou clique para selecionar</p>
+                    <input type="file" id="xmlFiles" multiple accept=".xml" hidden>
+                    <button type="button" class="btn-select-files" onclick="document.getElementById('xmlFiles').click()">
+                        <i class="fas fa-folder-open"></i> Selecionar Arquivos
+                    </button>
+                </div>
+                <div class="upload-info">
+                    <small>Aceitos: Arquivos .xml (máx. 10MB cada, até 100 arquivos)</small>
+                </div>
+            </div>
+            
+            <div class="upload-progress" id="uploadProgress" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">Enviando arquivos...</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeUploadModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn-primary" onclick="startUpload()" disabled>
+                    <i class="fas fa-upload"></i> Enviar Arquivos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script src="xmlentrada.js"></script>
+</body>
+</html>
